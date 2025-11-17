@@ -1,0 +1,21 @@
+<svg width="50" height="50" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer circle -->
+  <circle cx="25" cy="25" r="23" fill="none" stroke="#8B7355" stroke-width="2"/>
+
+  <!-- Bass clef integrated design -->
+  <g transform="translate(25, 25)">
+    <!-- Stylized bass clef forming the C -->
+    <path d="M -8,-12 Q -12,-12 -12,-8 Q -12,-4 -8,-4 Q -4,-4 -4,-8 Q -4,-10 -6,-10"
+          fill="none" stroke="#8B7355" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="-8" cy="-2" r="1" fill="#8B7355"/>
+    <circle cx="-8" cy="2" r="1" fill="#8B7355"/>
+
+    <!-- M formed by vertical lines -->
+    <path d="M 0,-10 L 0,8 M 3,-10 L 3,-2 L 6,-10 M 6,-10 L 6,8"
+          stroke="#8B7355" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+
+    <!-- A formed by triangle -->
+    <path d="M 10,-10 L 13,8 M 10,-10 L 16,8 M 11,2 L 15,2"
+          stroke="#8B7355" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  </g>
+</svg>

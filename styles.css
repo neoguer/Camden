@@ -63,6 +63,15 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
     color: var(--white);
     letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo-icon {
+    height: 35px;
+    width: 35px;
+    filter: brightness(0) invert(1);
 }
 
 .nav-menu {
