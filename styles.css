@@ -331,6 +331,18 @@ section {
     text-align: center;
 }
 
+.teaching .btn-primary {
+    background: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: var(--white);
+}
+
+.teaching .btn-primary:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--white);
+}
+
 /* Gallery Section */
 .gallery {
     background: var(--white);
