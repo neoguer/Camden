@@ -161,5 +161,94 @@ window.addEventListener('load', () => {
     hero.style.opacity = '1';
 });
 
+// Contact Form Handling
+const contactForm = document.getElementById('contactForm');
+const formStatus = document.getElementById('formStatus');
+
+if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Get form data
+        const formData = new FormData(contactForm);
+        const data = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            subject: formData.get('subject'),
+            message: formData.get('message')
+        };
+
+        // Basic validation
+        if (!data.name || !data.email || !data.subject || !data.message) {
+            showFormStatus('Please fill in all required fields.', 'error');
+            return;
+        }
+
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(data.email)) {
+            showFormStatus('Please enter a valid email address.', 'error');
+            return;
+        }
+
+        // Disable submit button
+        const submitButton = contactForm.querySelector('button[type="submit"]');
+        const originalText = submitButton.textContent;
+        submitButton.textContent = 'Sending...';
+        submitButton.disabled = true;
+
+        try {
+            // TODO: Replace this URL with your actual form endpoint
+            // Options:
+            // 1. Formspree: https://formspree.io (create account and get form endpoint)
+            // 2. Your own backend API endpoint
+            // 3. EmailJS: https://www.emailjs.com
+
+            // Example with Formspree (replace YOUR_FORM_ID):
+            // const response = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+
+            // For now, we'll simulate a successful submission
+            // Replace this with actual API call
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            showFormStatus('Thank you for your message! I will get back to you soon.', 'success');
+            contactForm.reset();
+
+            // Uncomment when you have a real endpoint:
+            /*
+            const response = await fetch('YOUR_ENDPOINT_HERE', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                showFormStatus('Thank you for your message! I will get back to you soon.', 'success');
+                contactForm.reset();
+            } else {
+                throw new Error('Form submission failed');
+            }
+            */
+        } catch (error) {
+            showFormStatus('Sorry, there was an error sending your message. Please try again or contact via social media.', 'error');
+        } finally {
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
+        }
+    });
+}
+
+function showFormStatus(message, type) {
+    formStatus.textContent = message;
+    formStatus.className = 'form-status ' + type;
+
+    // Auto-hide after 5 seconds
+    setTimeout(() => {
+        formStatus.className = 'form-status';
+    }, 5000);
+}
+
 console.log('Camden Archambeau - Official Website');
 console.log('© 2024 All Rights Reserved');
