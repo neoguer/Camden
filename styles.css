@@ -293,15 +293,11 @@ section {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
-.feature-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
 .feature-card h3 {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     margin-bottom: 1rem;
     color: var(--secondary-color);
+    padding-top: 0.5rem;
 }
 
 .feature-card p {
