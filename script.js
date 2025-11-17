@@ -1,3 +1,11 @@
+// Set current year in footer
+document.addEventListener('DOMContentLoaded', () => {
+    const currentYearElement = document.getElementById('currentYear');
+    if (currentYearElement) {
+        currentYearElement.textContent = new Date().getFullYear();
+    }
+});
+
 // Mobile Menu Toggle
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
@@ -251,4 +259,4 @@ function showFormStatus(message, type) {
 }
 
 console.log('Camden Archambeau - Official Website');
-console.log('© 2024 All Rights Reserved');
+console.log(`© ${new Date().getFullYear()} All Rights Reserved`);
