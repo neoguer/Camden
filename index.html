@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Camden Archambeau | Cellist</title>
     <link rel="icon" type="image/jpeg" href="logo.jpg">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" id="theme-stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -76,6 +76,35 @@
             </div>
         </div>
     </footer>
+
+    <!-- Theme Switcher -->
+    <div id="theme-switcher">
+        <button id="theme-toggle" aria-label="Toggle theme selector">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+            </svg>
+        </button>
+        <div id="theme-panel">
+            <h4>Choose Theme</h4>
+            <button class="theme-option active" data-theme="default">
+                <span class="theme-preview" style="background: linear-gradient(135deg, #8B7355 50%, #f8f6f3 50%);"></span>
+                <span>Original</span>
+            </button>
+            <button class="theme-option" data-theme="modern-dark">
+                <span class="theme-preview" style="background: linear-gradient(135deg, #00bcd4 50%, #0a0a0a 50%);"></span>
+                <span>Modern Dark</span>
+            </button>
+            <button class="theme-option" data-theme="classic-warm">
+                <span class="theme-preview" style="background: linear-gradient(135deg, #B8860B 50%, #722F37 50%);"></span>
+                <span>Classic Warm</span>
+            </button>
+            <button class="theme-option" data-theme="bold-contemporary">
+                <span class="theme-preview" style="background: linear-gradient(135deg, #FF6B6B 50%, #1E3A5F 50%);"></span>
+                <span>Bold</span>
+            </button>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

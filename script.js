@@ -253,3 +253,74 @@ function showFormStatus(message, type) {
 
 console.log('Camden Archambeau - Official Website');
 console.log(`© ${new Date().getFullYear()} All Rights Reserved`);
+
+// Theme Switcher
+const themeToggle = document.getElementById('theme-toggle');
+const themePanel = document.getElementById('theme-panel');
+const themeOptions = document.querySelectorAll('.theme-option');
+const themeStylesheet = document.getElementById('theme-stylesheet');
+
+if (themeToggle && themePanel) {
+    // Toggle panel visibility
+    themeToggle.addEventListener('click', () => {
+        themePanel.classList.toggle('active');
+    });
+
+    // Close panel when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('#theme-switcher')) {
+            themePanel.classList.remove('active');
+        }
+    });
+
+    // Theme switching
+    themeOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            const theme = option.dataset.theme;
+
+            // Update active state
+            themeOptions.forEach(opt => opt.classList.remove('active'));
+            option.classList.add('active');
+
+            // Switch stylesheet
+            let stylesheetPath;
+            switch (theme) {
+                case 'modern-dark':
+                    stylesheetPath = 'theme1-modern-dark/styles.css';
+                    break;
+                case 'classic-warm':
+                    stylesheetPath = 'theme2-classic-warm/styles.css';
+                    break;
+                case 'bold-contemporary':
+                    stylesheetPath = 'theme3-bold-contemporary/styles.css';
+                    break;
+                default:
+                    stylesheetPath = 'styles.css';
+            }
+
+            // Apply theme with transition
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                themeStylesheet.href = stylesheetPath;
+                setTimeout(() => {
+                    document.body.style.opacity = '1';
+                }, 100);
+            }, 300);
+
+            // Save preference
+            localStorage.setItem('camden-theme', theme);
+
+            // Close panel
+            themePanel.classList.remove('active');
+        });
+    });
+
+    // Load saved theme preference
+    const savedTheme = localStorage.getItem('camden-theme');
+    if (savedTheme) {
+        const savedOption = document.querySelector(`[data-theme="${savedTheme}"]`);
+        if (savedOption) {
+            savedOption.click();
+        }
+    }
+}
