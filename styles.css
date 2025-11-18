@@ -992,6 +992,7 @@ footer p {
     font-family: 'Montserrat', sans-serif;
     font-size: 0.8rem;
     color: #333;
+    text-decoration: none;
 }
 
 .theme-option:last-child {
