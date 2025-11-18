@@ -10,10 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
 
-hamburger.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    hamburger.classList.toggle('active');
-});
+if (hamburger) {
+    hamburger.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        hamburger.classList.toggle('active');
+    });
+}
 
 // Close mobile menu when clicking on a link
 document.querySelectorAll('.nav-menu a').forEach(link => {
@@ -26,69 +28,51 @@ document.querySelectorAll('.nav-menu a').forEach(link => {
 // Navbar scroll effect
 window.addEventListener('scroll', () => {
     const navbar = document.getElementById('navbar');
-    if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(26, 26, 26, 0.98)';
-        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-    } else {
-        navbar.style.background = 'rgba(26, 26, 26, 0.95)';
-        navbar.style.boxShadow = 'none';
+    if (navbar) {
+        if (window.scrollY > 100) {
+            navbar.style.background = 'rgba(26, 26, 26, 0.98)';
+            navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+        } else {
+            navbar.style.background = 'rgba(26, 26, 26, 0.95)';
+            navbar.style.boxShadow = 'none';
+        }
     }
 });
 
-// Smooth scroll animation for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            const headerOffset = 70;
-            const elementPosition = target.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+// Page transition effect
+document.querySelectorAll('a').forEach(link => {
+    // Only apply to internal links (not external or anchor-only links)
+    const href = link.getAttribute('href');
+    if (href && href.endsWith('.html') && !link.getAttribute('target')) {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const destination = href;
 
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-            });
-        }
-    });
+            // Add transition class
+            document.body.classList.add('page-transitioning');
+
+            // Navigate after transition
+            setTimeout(() => {
+                window.location.href = destination;
+            }, 300);
+        });
+    }
 });
 
-// Intersection Observer for fade-in animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, observerOptions);
-
-// Observe all sections
-document.querySelectorAll('section').forEach(section => {
-    section.style.opacity = '0';
-    section.style.transform = 'translateY(20px)';
-    section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(section);
-});
-
-// Gallery lightbox effect (simple version)
+// Gallery lightbox effect
 const galleryItems = document.querySelectorAll('.gallery-item');
 
 galleryItems.forEach(item => {
     item.addEventListener('click', () => {
         const img = item.querySelector('img');
+        const overlay = item.querySelector('.gallery-overlay p');
         const lightbox = document.createElement('div');
         lightbox.classList.add('lightbox');
         lightbox.innerHTML = `
             <div class="lightbox-content">
                 <span class="close-lightbox">&times;</span>
                 <img src="${img.src}" alt="${img.alt}">
-                <p>${item.querySelector('.gallery-overlay p').textContent}</p>
+                <p>${overlay ? overlay.textContent : ''}</p>
             </div>
         `;
         document.body.appendChild(lightbox);
@@ -160,13 +144,20 @@ style.textContent = `
         from { opacity: 0; }
         to { opacity: 1; }
     }
+    .page-transitioning {
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
 `;
 document.head.appendChild(style);
 
 // Preload hero image
 window.addEventListener('load', () => {
     const hero = document.querySelector('.hero');
-    hero.style.opacity = '1';
+    if (hero) {
+        hero.style.opacity = '1';
+    }
 });
 
 // Contact Form Handling
@@ -249,13 +240,15 @@ if (contactForm) {
 }
 
 function showFormStatus(message, type) {
-    formStatus.textContent = message;
-    formStatus.className = 'form-status ' + type;
+    if (formStatus) {
+        formStatus.textContent = message;
+        formStatus.className = 'form-status ' + type;
 
-    // Auto-hide after 5 seconds
-    setTimeout(() => {
-        formStatus.className = 'form-status';
-    }, 5000);
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+            formStatus.className = 'form-status';
+        }, 5000);
+    }
 }
 
 console.log('Camden Archambeau - Official Website');
