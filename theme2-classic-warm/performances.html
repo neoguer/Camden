@@ -45,40 +45,14 @@
                 <h2>Upcoming Performances</h2>
                 <div class="divider"></div>
             </div>
-            <div class="performances-grid">
-                <div class="performance-card">
-                    <div class="performance-date">
-                        <span class="month">2024-25</span>
-                        <span class="season">Season</span>
-                    </div>
-                    <div class="performance-details">
-                        <h3>Boston Museum of Fine Arts</h3>
-                        <p class="ensemble">Archambeau-Dastoor Duo</p>
-                        <p class="description">Chamber music performance featuring works for cello and piano</p>
-                    </div>
-                </div>
-                <div class="performance-card">
-                    <div class="performance-date">
-                        <span class="month">2024-25</span>
-                        <span class="season">Season</span>
-                    </div>
-                    <div class="performance-details">
-                        <h3>Winter Harbor Music Festival</h3>
-                        <p class="ensemble">Archambeau-Dastoor Duo</p>
-                        <p class="description">Festival appearance</p>
-                    </div>
-                </div>
-                <div class="performance-card">
-                    <div class="performance-date">
-                        <span class="month">2024-25</span>
-                        <span class="season">Season</span>
-                    </div>
-                    <div class="performance-details">
-                        <h3>Avaloch Farm</h3>
-                        <p class="ensemble">Archambeau-Dastoor Duo</p>
-                        <p class="description">Residency and performance</p>
-                    </div>
-                </div>
+            <!-- Dynamic performances from Google Calendar -->
+            <div id="calendar-performances" class="performances-grid">
+                <div class="loading-message">Loading upcoming performances...</div>
+            </div>
+
+            <!-- Fallback message if no events -->
+            <div id="no-events-message" class="no-events" style="display: none;">
+                <p>No upcoming performances scheduled. Check back soon!</p>
             </div>
             <div class="past-performances">
                 <h3>Notable Past Performances</h3>

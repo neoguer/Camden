@@ -271,3 +271,142 @@ if (themeToggle && themePanel) {
         }
     });
 }
+
+// Google Calendar Integration for Performances
+// Replace these with your actual values
+const GOOGLE_CALENDAR_CONFIG = {
+    API_KEY: 'YOUR_API_KEY_HERE',
+    CALENDAR_ID: 'YOUR_CALENDAR_ID_HERE'
+};
+
+// Fetch and display performances from Google Calendar
+async function loadCalendarPerformances() {
+    const container = document.getElementById('calendar-performances');
+    const noEventsMessage = document.getElementById('no-events-message');
+
+    if (!container) return;
+
+    // Check if credentials are configured
+    if (GOOGLE_CALENDAR_CONFIG.API_KEY === 'YOUR_API_KEY_HERE' ||
+        GOOGLE_CALENDAR_CONFIG.CALENDAR_ID === 'YOUR_CALENDAR_ID_HERE') {
+        container.innerHTML = '<p class="calendar-error">Calendar not configured. Please add API credentials.</p>';
+        return;
+    }
+
+    try {
+        const now = new Date().toISOString();
+        const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(GOOGLE_CALENDAR_CONFIG.CALENDAR_ID)}/events?` +
+            `key=${GOOGLE_CALENDAR_CONFIG.API_KEY}` +
+            `&timeMin=${now}` +
+            `&maxResults=10` +
+            `&singleEvents=true` +
+            `&orderBy=startTime`;
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch calendar events');
+        }
+
+        const data = await response.json();
+        const events = data.items || [];
+
+        if (events.length === 0) {
+            container.innerHTML = '';
+            noEventsMessage.style.display = 'block';
+            return;
+        }
+
+        // Clear loading message
+        container.innerHTML = '';
+
+        // Render each event
+        events.forEach(event => {
+            const card = createPerformanceCard(event);
+            container.appendChild(card);
+        });
+
+    } catch (error) {
+        console.error('Error loading calendar:', error);
+        container.innerHTML = '<p class="calendar-error">Unable to load performances. Please try again later.</p>';
+    }
+}
+
+// Create a performance card from a calendar event
+function createPerformanceCard(event) {
+    const card = document.createElement('div');
+    card.className = 'performance-card';
+
+    // Parse date
+    const startDate = event.start.dateTime || event.start.date;
+    const date = new Date(startDate);
+    const month = date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+    const day = date.getDate();
+    const year = date.getFullYear();
+    const time = event.start.dateTime ?
+        date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '';
+
+    // Parse description for additional info
+    const description = event.description || '';
+    const { mainText, ticketLink, ensemble } = parseDescription(description);
+
+    // Build card HTML
+    card.innerHTML = `
+        <div class="performance-date">
+            <span class="month">${month} ${day}</span>
+            <span class="season">${year}${time ? ' • ' + time : ''}</span>
+        </div>
+        <div class="performance-details">
+            <h3>${event.summary || 'Performance'}</h3>
+            ${event.location ? `<p class="ensemble">${event.location}</p>` : ''}
+            ${ensemble ? `<p class="ensemble">${ensemble}</p>` : ''}
+            ${mainText ? `<p class="description">${mainText}</p>` : ''}
+            ${ticketLink ? `<a href="${ticketLink}" target="_blank" class="ticket-link">Get Tickets</a>` : ''}
+        </div>
+    `;
+
+    return card;
+}
+
+// Parse description to extract ticket links and other info
+function parseDescription(description) {
+    if (!description) return { mainText: '', ticketLink: null, ensemble: null };
+
+    let mainText = description;
+    let ticketLink = null;
+    let ensemble = null;
+
+    // Extract ticket link (look for URLs)
+    const urlRegex = /(https?:\/\/[^\s<]+)/gi;
+    const urls = description.match(urlRegex);
+    if (urls && urls.length > 0) {
+        // Use the first URL as ticket link
+        ticketLink = urls[0];
+        // Remove URL from main text
+        mainText = mainText.replace(urlRegex, '').trim();
+    }
+
+    // Look for "Tickets:" or similar labels
+    const ticketLabelRegex = /tickets?:\s*/gi;
+    mainText = mainText.replace(ticketLabelRegex, '').trim();
+
+    // Look for ensemble/performer info (lines starting with "With:" or "Ensemble:")
+    const ensembleRegex = /(?:with|ensemble|performers?):\s*([^\n]+)/gi;
+    const ensembleMatch = ensembleRegex.exec(description);
+    if (ensembleMatch) {
+        ensemble = ensembleMatch[1].trim();
+        mainText = mainText.replace(ensembleRegex, '').trim();
+    }
+
+    // Clean up extra whitespace and newlines
+    mainText = mainText.replace(/\n+/g, ' ').replace(/\s+/g, ' ').trim();
+
+    return { mainText, ticketLink, ensemble };
+}
+
+// Load calendar when DOM is ready (only on performances page)
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('calendar-performances')) {
+        loadCalendarPerformances();
+    }
+});
