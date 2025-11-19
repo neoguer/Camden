@@ -457,6 +457,124 @@ section {
     margin-top: 2rem;
 }
 
+/* Video Carousel */
+.video-carousel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.carousel-container {
+    flex: 1;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.carousel-slide {
+    min-width: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    display: none;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+    display: block;
+}
+
+.carousel-slide h3 {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.carousel-btn {
+    background: var(--secondary-color);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--white);
+    flex-shrink: 0;
+}
+
+.carousel-btn:hover {
+    background: var(--primary-color);
+    transform: scale(1.1);
+}
+
+.carousel-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.carousel-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--secondary-color);
+    background: transparent;
+    cursor: pointer;
+    transition: var(--transition);
+    padding: 0;
+}
+
+.carousel-dot:hover {
+    background: var(--accent-color);
+}
+
+.carousel-dot.active {
+    background: var(--secondary-color);
+}
+
+@media (max-width: 768px) {
+    .video-carousel {
+        flex-direction: column;
+    }
+
+    .carousel-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        width: 40px;
+        height: 40px;
+    }
+
+    .carousel-prev {
+        left: 0.5rem;
+    }
+
+    .carousel-next {
+        right: 0.5rem;
+    }
+
+    .carousel-btn:hover {
+        transform: translateY(-50%) scale(1.1);
+    }
+}
+
 /* Performances Section */
 .performances {
     background: var(--white);
