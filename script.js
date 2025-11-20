@@ -252,3 +252,69 @@ function showFormStatus(message, type) {
 
 console.log('Camden Archambeau - Official Website');
 console.log('© 2024 All Rights Reserved');
+
+// Video Carousel
+const carouselTrack = document.querySelector('.carousel-track');
+const slides = Array.from(document.querySelectorAll('.video-slide'));
+const nextButton = document.querySelector('.next-btn');
+const prevButton = document.querySelector('.prev-btn');
+const indicators = Array.from(document.querySelectorAll('.indicator'));
+
+let currentSlide = 0;
+
+// Update carousel position
+function updateCarousel() {
+    const slideWidth = slides[0].getBoundingClientRect().width;
+    carouselTrack.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+
+    // Update indicators
+    indicators.forEach((indicator, index) => {
+        if (index === currentSlide) {
+            indicator.classList.add('active');
+        } else {
+            indicator.classList.remove('active');
+        }
+    });
+}
+
+// Next button
+if (nextButton) {
+    nextButton.addEventListener('click', () => {
+        if (currentSlide < slides.length - 1) {
+            currentSlide++;
+        } else {
+            currentSlide = 0; // Loop back to first slide
+        }
+        updateCarousel();
+    });
+}
+
+// Previous button
+if (prevButton) {
+    prevButton.addEventListener('click', () => {
+        if (currentSlide > 0) {
+            currentSlide--;
+        } else {
+            currentSlide = slides.length - 1; // Loop to last slide
+        }
+        updateCarousel();
+    });
+}
+
+// Indicator clicks
+indicators.forEach((indicator, index) => {
+    indicator.addEventListener('click', () => {
+        currentSlide = index;
+        updateCarousel();
+    });
+});
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    updateCarousel();
+});
+
+// Initialize carousel
+if (carouselTrack) {
+    updateCarousel();
+}
