@@ -168,18 +168,54 @@
             </div>
             <div class="media-content">
                 <p class="media-intro">Explore performances and recordings</p>
-                <div class="video-grid">
-                    <div class="video-item">
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/videoseries?list=UULFcamdenarchambeau5244"
-                                    frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowfullscreen>
-                            </iframe>
+
+                <!-- Video Carousel -->
+                <div class="video-carousel">
+                    <button class="carousel-btn prev-btn" aria-label="Previous video">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+
+                    <div class="carousel-container">
+                        <div class="carousel-track">
+                            <div class="video-slide">
+                                <div class="video-wrapper">
+                                    <iframe src="https://www.youtube.com/embed/MV-UF4WIlQE"
+                                            frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen>
+                                    </iframe>
+                                </div>
+                                <h3>Performance 1</h3>
+                            </div>
+
+                            <div class="video-slide">
+                                <div class="video-wrapper">
+                                    <iframe src="https://www.youtube.com/embed/EtnOyxh7KrQ"
+                                            frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen>
+                                    </iframe>
+                                </div>
+                                <h3>Performance 2</h3>
+                            </div>
                         </div>
-                        <h3>Featured Performances</h3>
                     </div>
+
+                    <button class="carousel-btn next-btn" aria-label="Next video">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
                 </div>
+
+                <!-- Carousel Indicators -->
+                <div class="carousel-indicators">
+                    <button class="indicator active" data-slide="0" aria-label="Go to video 1"></button>
+                    <button class="indicator" data-slide="1" aria-label="Go to video 2"></button>
+                </div>
+
                 <div class="youtube-link">
                     <a href="https://www.youtube.com/@camdenarchambeau5244" target="_blank" class="btn-secondary">
                         Visit YouTube Channel
