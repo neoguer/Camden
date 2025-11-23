@@ -441,13 +441,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentSlide = index;
             }
 
-            // Update slides
-            slides.forEach((slide, i) => {
-                slide.classList.remove('active');
-                if (i === currentSlide) {
-                    slide.classList.add('active');
-                }
-            });
+            // Calculate the offset and apply transform for smooth sliding
+            const track = document.querySelector('.carousel-track');
+            if (track) {
+                const offset = -currentSlide * 100;
+                track.style.transform = `translateX(${offset}%)`;
+            }
 
             // Update dots
             dots.forEach((dot, i) => {
@@ -491,5 +490,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+
+        // Initialize carousel position
+        showSlide(0);
     }
 });
