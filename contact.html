@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Camden Archambeau</title>
+    <link rel="icon" type="image/jpeg" href="logo.jpg">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="page-transition">
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="logo.jpg" alt="CMA Logo" class="logo-icon">
+                    Camden Archambeau
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="teaching.html">Teaching</a></li>
+                <li><a href="consulting.html">Consulting</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="media.html">Media</a></li>
+                <li><a href="performances.html">Performances</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact page-content">
+        <div class="container">
+            <div class="section-header">
+                <h2>Contact</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="contact-content">
+                <p class="contact-intro">For booking inquiries, lesson inquiries, collaborations, or general questions, please get in touch.</p>
+
+                <!-- Contact Form -->
+                <div class="contact-form-wrapper">
+                    <form id="contactForm" class="contact-form" action="https://formspree.io/f/xdkbarbj" method="POST">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Name *</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Inquiry Type *</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Select an option</option>
+                                <option value="booking">Performance Booking</option>
+                                <option value="lessons">Cello Lessons</option>
+                                <option value="collaboration">Collaboration</option>
+                                <option value="general">General Inquiry</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" rows="6" required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary form-submit">Send Message</button>
+                        <div class="form-status" id="formStatus"></div>
+                    </form>
+                </div>
+
+                <div class="contact-divider">
+                    <span>Or connect via</span>
+                </div>
+
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <h3>Locations</h3>
+                        <p>New York City<br>Boston</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>Social Media</h3>
+                        <div class="social-links">
+                            <a href="https://www.instagram.com/camdenarchambeau_music/" target="_blank" class="social-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                </svg>
+                                <span>Instagram</span>
+                            </a>
+                            <a href="https://www.youtube.com/@camdenarchambeau5244" target="_blank" class="social-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+                                    <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                                </svg>
+                                <span>YouTube</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <h3>Affiliations</h3>
+                        <p>The Juilliard School<br>
+                        Boston Youth Symphony Orchestras</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/camdenarchambeau_music/" target="_blank" aria-label="Instagram">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                    <a href="https://www.youtube.com/@camdenarchambeau5244" target="_blank" aria-label="YouTube">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+                            <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                        </svg>
+                    </a>
+                </div>
+                <p>&copy; <span id="currentYear"></span> Camden Archambeau. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Theme Switcher -->
+    <div id="theme-switcher">
+        <button id="theme-toggle" aria-label="Toggle theme selector">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+            </svg>
+        </button>
+        <div id="theme-panel">
+            <h4>Switch Theme</h4>
+            <a href="contact.html" class="theme-option active">
+                <span class="theme-preview" style="background: linear-gradient(135deg, #8B7355 50%, #f8f6f3 50%);"></span>
+                <span>Original</span>
+            </a>
+            <a href="theme1-modern-dark/contact.html" class="theme-option">
+                <span class="theme-preview" style="background: linear-gradient(135deg, #1a2744 50%, #faf8f3 50%);"></span>
+                <span>Academic</span>
+            </a>
+            <a href="theme2-classic-warm/contact.html" class="theme-option">
+                <span class="theme-preview" style="background: linear-gradient(135deg, #000000 50%, #ffff00 50%);"></span>
+                <span>Brutalist</span>
+            </a>
+            <a href="theme3-bold-contemporary/contact.html" class="theme-option">
+                <span class="theme-preview" style="background: linear-gradient(135deg, #333333 50%, #f8f8f8 50%);"></span>
+                <span>Minimalist</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

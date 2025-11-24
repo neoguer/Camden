@@ -1,11 +1,21 @@
+// Set current year in footer
+document.addEventListener('DOMContentLoaded', () => {
+    const currentYearElement = document.getElementById('currentYear');
+    if (currentYearElement) {
+        currentYearElement.textContent = new Date().getFullYear();
+    }
+});
+
 // Mobile Menu Toggle
 const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
 
-hamburger.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    hamburger.classList.toggle('active');
-});
+if (hamburger) {
+    hamburger.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        hamburger.classList.toggle('active');
+    });
+}
 
 // Close mobile menu when clicking on a link
 document.querySelectorAll('.nav-menu a').forEach(link => {
@@ -18,69 +28,51 @@ document.querySelectorAll('.nav-menu a').forEach(link => {
 // Navbar scroll effect
 window.addEventListener('scroll', () => {
     const navbar = document.getElementById('navbar');
-    if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(26, 26, 26, 0.98)';
-        navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-    } else {
-        navbar.style.background = 'rgba(26, 26, 26, 0.95)';
-        navbar.style.boxShadow = 'none';
+    if (navbar) {
+        if (window.scrollY > 100) {
+            navbar.style.background = 'rgba(26, 26, 26, 0.98)';
+            navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+        } else {
+            navbar.style.background = 'rgba(26, 26, 26, 0.95)';
+            navbar.style.boxShadow = 'none';
+        }
     }
 });
 
-// Smooth scroll animation for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            const headerOffset = 70;
-            const elementPosition = target.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+// Page transition effect
+document.querySelectorAll('a').forEach(link => {
+    // Only apply to internal links (not external or anchor-only links)
+    const href = link.getAttribute('href');
+    if (href && href.endsWith('.html') && !link.getAttribute('target')) {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const destination = href;
 
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-            });
-        }
-    });
+            // Add transition class
+            document.body.classList.add('page-transitioning');
+
+            // Navigate after transition
+            setTimeout(() => {
+                window.location.href = destination;
+            }, 300);
+        });
+    }
 });
 
-// Intersection Observer for fade-in animations
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, observerOptions);
-
-// Observe all sections
-document.querySelectorAll('section').forEach(section => {
-    section.style.opacity = '0';
-    section.style.transform = 'translateY(20px)';
-    section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(section);
-});
-
-// Gallery lightbox effect (simple version)
+// Gallery lightbox effect
 const galleryItems = document.querySelectorAll('.gallery-item');
 
 galleryItems.forEach(item => {
     item.addEventListener('click', () => {
         const img = item.querySelector('img');
+        const overlay = item.querySelector('.gallery-overlay p');
         const lightbox = document.createElement('div');
         lightbox.classList.add('lightbox');
         lightbox.innerHTML = `
             <div class="lightbox-content">
                 <span class="close-lightbox">&times;</span>
                 <img src="${img.src}" alt="${img.alt}">
-                <p>${item.querySelector('.gallery-overlay p').textContent}</p>
+                <p>${overlay ? overlay.textContent : ''}</p>
             </div>
         `;
         document.body.appendChild(lightbox);
@@ -152,13 +144,20 @@ style.textContent = `
         from { opacity: 0; }
         to { opacity: 1; }
     }
+    .page-transitioning {
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
 `;
 document.head.appendChild(style);
 
 // Preload hero image
 window.addEventListener('load', () => {
     const hero = document.querySelector('.hero');
-    hero.style.opacity = '1';
+    if (hero) {
+        hero.style.opacity = '1';
+    }
 });
 
 // Contact Form Handling
@@ -241,80 +240,258 @@ if (contactForm) {
 }
 
 function showFormStatus(message, type) {
-    formStatus.textContent = message;
-    formStatus.className = 'form-status ' + type;
+    if (formStatus) {
+        formStatus.textContent = message;
+        formStatus.className = 'form-status ' + type;
 
-    // Auto-hide after 5 seconds
-    setTimeout(() => {
-        formStatus.className = 'form-status';
-    }, 5000);
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+            formStatus.className = 'form-status';
+        }, 5000);
+    }
 }
 
 console.log('Camden Archambeau - Official Website');
-console.log('© 2024 All Rights Reserved');
+console.log(`© ${new Date().getFullYear()} All Rights Reserved`);
+
+// Theme Switcher
+const themeToggle = document.getElementById('theme-toggle');
+const themePanel = document.getElementById('theme-panel');
+
+if (themeToggle && themePanel) {
+    // Toggle panel visibility
+    themeToggle.addEventListener('click', () => {
+        themePanel.classList.toggle('active');
+    });
+
+    // Close panel when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('#theme-switcher')) {
+            themePanel.classList.remove('active');
+        }
+    });
+}
+
+// Google Calendar Integration for Performances
+// Replace these with your actual values
+const GOOGLE_CALENDAR_CONFIG = {
+    API_KEY: 'YOUR_API_KEY_HERE',
+    CALENDAR_ID: 'YOUR_CALENDAR_ID_HERE'
+};
+
+// Fetch and display performances from Google Calendar
+async function loadCalendarPerformances() {
+    const container = document.getElementById('calendar-performances');
+    const noEventsMessage = document.getElementById('no-events-message');
+
+    if (!container) return;
+
+    // Check if credentials are configured
+    if (GOOGLE_CALENDAR_CONFIG.API_KEY === 'YOUR_API_KEY_HERE' ||
+        GOOGLE_CALENDAR_CONFIG.CALENDAR_ID === 'YOUR_CALENDAR_ID_HERE') {
+        container.innerHTML = '<p class="calendar-error">Calendar not configured. Please add API credentials.</p>';
+        return;
+    }
+
+    try {
+        const now = new Date().toISOString();
+        const url = `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(GOOGLE_CALENDAR_CONFIG.CALENDAR_ID)}/events?` +
+            `key=${GOOGLE_CALENDAR_CONFIG.API_KEY}` +
+            `&timeMin=${now}` +
+            `&maxResults=10` +
+            `&singleEvents=true` +
+            `&orderBy=startTime`;
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch calendar events');
+        }
+
+        const data = await response.json();
+        const events = data.items || [];
+
+        if (events.length === 0) {
+            container.innerHTML = '';
+            noEventsMessage.style.display = 'block';
+            return;
+        }
+
+        // Clear loading message
+        container.innerHTML = '';
+
+        // Render each event
+        events.forEach(event => {
+            const card = createPerformanceCard(event);
+            container.appendChild(card);
+        });
+
+    } catch (error) {
+        console.error('Error loading calendar:', error);
+        container.innerHTML = '<p class="calendar-error">Unable to load performances. Please try again later.</p>';
+    }
+}
+
+// Create a performance card from a calendar event
+function createPerformanceCard(event) {
+    const card = document.createElement('div');
+    card.className = 'performance-card';
+
+    // Parse date
+    const startDate = event.start.dateTime || event.start.date;
+    const date = new Date(startDate);
+    const month = date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+    const day = date.getDate();
+    const year = date.getFullYear();
+    const time = event.start.dateTime ?
+        date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '';
+
+    // Parse description for additional info
+    const description = event.description || '';
+    const { mainText, ticketLink, ensemble } = parseDescription(description);
+
+    // Build card HTML
+    card.innerHTML = `
+        <div class="performance-date">
+            <span class="month">${month} ${day}</span>
+            <span class="season">${year}${time ? ' • ' + time : ''}</span>
+        </div>
+        <div class="performance-details">
+            <h3>${event.summary || 'Performance'}</h3>
+            ${event.location ? `<p class="ensemble">${event.location}</p>` : ''}
+            ${ensemble ? `<p class="ensemble">${ensemble}</p>` : ''}
+            ${mainText ? `<p class="description">${mainText}</p>` : ''}
+            ${ticketLink ? `<a href="${ticketLink}" target="_blank" class="ticket-link">Get Tickets</a>` : ''}
+        </div>
+    `;
+
+    return card;
+}
+
+// Parse description to extract ticket links and other info
+function parseDescription(description) {
+    if (!description) return { mainText: '', ticketLink: null, ensemble: null };
+
+    let mainText = description;
+    let ticketLink = null;
+    let ensemble = null;
+
+    // Extract ticket link (look for URLs)
+    const urlRegex = /(https?:\/\/[^\s<]+)/gi;
+    const urls = description.match(urlRegex);
+    if (urls && urls.length > 0) {
+        // Use the first URL as ticket link
+        ticketLink = urls[0];
+        // Remove URL from main text
+        mainText = mainText.replace(urlRegex, '').trim();
+    }
+
+    // Look for "Tickets:" or similar labels
+    const ticketLabelRegex = /tickets?:\s*/gi;
+    mainText = mainText.replace(ticketLabelRegex, '').trim();
+
+    // Look for ensemble/performer info (lines starting with "With:" or "Ensemble:")
+    const ensembleRegex = /(?:with|ensemble|performers?):\s*([^\n]+)/gi;
+    const ensembleMatch = ensembleRegex.exec(description);
+    if (ensembleMatch) {
+        ensemble = ensembleMatch[1].trim();
+        mainText = mainText.replace(ensembleRegex, '').trim();
+    }
+
+    // Clean up extra whitespace and newlines
+    mainText = mainText.replace(/\n+/g, ' ').replace(/\s+/g, ' ').trim();
+
+    return { mainText, ticketLink, ensemble };
+}
+
+// Load calendar when DOM is ready (only on performances page)
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('calendar-performances')) {
+        loadCalendarPerformances();
+    }
+});
 
 // Video Carousel
-const carouselTrack = document.querySelector('.carousel-track');
-const slides = Array.from(document.querySelectorAll('.video-slide'));
-const nextButton = document.querySelector('.next-btn');
-const prevButton = document.querySelector('.prev-btn');
-const indicators = Array.from(document.querySelectorAll('.indicator'));
+document.addEventListener('DOMContentLoaded', () => {
+    const videoCarousel = document.querySelector('.video-carousel');
 
-let currentSlide = 0;
+    if (videoCarousel) {
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.carousel-dot');
+        const prevBtn = document.querySelector('.carousel-prev');
+        const nextBtn = document.querySelector('.carousel-next');
+        let currentSlide = 0;
 
-// Update carousel position
-function updateCarousel() {
-    const slideWidth = slides[0].getBoundingClientRect().width;
-    carouselTrack.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
-
-    // Update indicators
-    indicators.forEach((indicator, index) => {
-        if (index === currentSlide) {
-            indicator.classList.add('active');
-        } else {
-            indicator.classList.remove('active');
+        // Hide navigation if only one slide
+        if (slides.length <= 1) {
+            if (prevBtn) prevBtn.style.display = 'none';
+            if (nextBtn) nextBtn.style.display = 'none';
+            const dotsContainer = document.querySelector('.carousel-dots');
+            if (dotsContainer) dotsContainer.style.display = 'none';
+            return;
         }
-    });
-}
 
-// Next button
-if (nextButton) {
-    nextButton.addEventListener('click', () => {
-        if (currentSlide < slides.length - 1) {
-            currentSlide++;
-        } else {
-            currentSlide = 0; // Loop back to first slide
+        function showSlide(index) {
+            // Handle wrapping
+            if (index < 0) {
+                currentSlide = slides.length - 1;
+            } else if (index >= slides.length) {
+                currentSlide = 0;
+            } else {
+                currentSlide = index;
+            }
+
+            // Calculate the offset and apply transform for smooth sliding
+            const track = document.querySelector('.carousel-track');
+            if (track) {
+                const offset = -currentSlide * 100;
+                track.style.transform = `translateX(${offset}%)`;
+            }
+
+            // Update dots
+            dots.forEach((dot, i) => {
+                dot.classList.remove('active');
+                if (i === currentSlide) {
+                    dot.classList.add('active');
+                }
+            });
         }
-        updateCarousel();
-    });
-}
 
-// Previous button
-if (prevButton) {
-    prevButton.addEventListener('click', () => {
-        if (currentSlide > 0) {
-            currentSlide--;
-        } else {
-            currentSlide = slides.length - 1; // Loop to last slide
+        // Previous button
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                showSlide(currentSlide - 1);
+            });
         }
-        updateCarousel();
-    });
-}
 
-// Indicator clicks
-indicators.forEach((indicator, index) => {
-    indicator.addEventListener('click', () => {
-        currentSlide = index;
-        updateCarousel();
-    });
+        // Next button
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                showSlide(currentSlide + 1);
+            });
+        }
+
+        // Dot navigation
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+
+        // Keyboard navigation (only when carousel is in view)
+        document.addEventListener('keydown', (e) => {
+            const rect = videoCarousel.getBoundingClientRect();
+            const inView = rect.top < window.innerHeight && rect.bottom > 0;
+            if (inView) {
+                if (e.key === 'ArrowLeft') {
+                    showSlide(currentSlide - 1);
+                } else if (e.key === 'ArrowRight') {
+                    showSlide(currentSlide + 1);
+                }
+            }
+        });
+
+        // Initialize carousel position
+        showSlide(0);
+    }
 });
-
-// Handle window resize
-window.addEventListener('resize', () => {
-    updateCarousel();
-});
-
-// Initialize carousel
-if (carouselTrack) {
-    updateCarousel();
-}
