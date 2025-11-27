@@ -8,15 +8,11 @@
   # No build command needed for static site
   command = ""
 
-# Redirect rules
+# Redirect rules - only for 404s, not for existing files
 [[redirects]]
   from = "/*"
   to = "/index.html"
-  status = 200
-  force = false
-
-  # Don't redirect if the file exists
-  conditions = {Role = []}
+  status = 404
 
 # Headers for security
 [[headers]]
