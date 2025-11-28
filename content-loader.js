@@ -49,28 +49,94 @@ async function loadVideos() {
             carouselDots.innerHTML = videos.map((video, index) =>
                 `<button class="carousel-dot${index === 0 ? ' active' : ''}" data-slide="${index}" aria-label="Go to slide ${index + 1}"></button>`
             ).join('');
-
-            // Re-attach event listeners for dots
-            document.querySelectorAll('.carousel-dot').forEach(dot => {
-                dot.addEventListener('click', () => {
-                    const slideIndex = parseInt(dot.dataset.slide);
-                    const slides = document.querySelectorAll('.carousel-slide');
-                    const dots = document.querySelectorAll('.carousel-dot');
-
-                    slides.forEach((slide, i) => {
-                        slide.classList.toggle('active', i === slideIndex);
-                    });
-
-                    dots.forEach((d, i) => {
-                        d.classList.toggle('active', i === slideIndex);
-                    });
-                });
-            });
         }
+
+        // Reinitialize the carousel navigation after updating content
+        initializeCarousel();
 
     } catch (error) {
         console.error('Error loading videos:', error);
     }
+}
+
+// Initialize carousel navigation
+function initializeCarousel() {
+    const videoCarousel = document.querySelector('.video-carousel');
+
+    if (!videoCarousel) return;
+
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.carousel-dot');
+    const prevBtn = document.querySelector('.carousel-prev');
+    const nextBtn = document.querySelector('.carousel-next');
+    let currentSlide = 0;
+
+    console.log('Initializing carousel with', slides.length, 'slides');
+
+    // Hide navigation if only one slide
+    if (slides.length <= 1) {
+        if (prevBtn) prevBtn.style.display = 'none';
+        if (nextBtn) nextBtn.style.display = 'none';
+        const dotsContainer = document.querySelector('.carousel-dots');
+        if (dotsContainer) dotsContainer.style.display = 'none';
+        return;
+    }
+
+    function showSlide(index) {
+        // Handle wrapping
+        if (index < 0) {
+            currentSlide = slides.length - 1;
+        } else if (index >= slides.length) {
+            currentSlide = 0;
+        } else {
+            currentSlide = index;
+        }
+
+        // Calculate the offset and apply transform for smooth sliding
+        const track = document.querySelector('.carousel-track');
+        if (track) {
+            const offset = -currentSlide * 100;
+            track.style.transform = `translateX(${offset}%)`;
+        }
+
+        // Update active states
+        slides.forEach((slide, i) => {
+            slide.classList.toggle('active', i === currentSlide);
+        });
+
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentSlide);
+        });
+    }
+
+    // Remove old event listeners by cloning buttons
+    const newPrevBtn = prevBtn?.cloneNode(true);
+    const newNextBtn = nextBtn?.cloneNode(true);
+
+    if (prevBtn && newPrevBtn) {
+        prevBtn.parentNode.replaceChild(newPrevBtn, prevBtn);
+        newPrevBtn.addEventListener('click', () => {
+            showSlide(currentSlide - 1);
+        });
+    }
+
+    if (nextBtn && newNextBtn) {
+        nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
+        newNextBtn.addEventListener('click', () => {
+            showSlide(currentSlide + 1);
+        });
+    }
+
+    // Dot navigation
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            showSlide(index);
+        });
+    });
+
+    // Initialize carousel position
+    showSlide(0);
+    console.log('Carousel initialized successfully');
 }
 
 // Load about page content
@@ -143,12 +209,18 @@ async function loadHome() {
 // Initialize content loading based on current page
 document.addEventListener('DOMContentLoaded', () => {
     const path = window.location.pathname;
+    console.log('Content loader initialized, path:', path);
 
     if (path.includes('media.html')) {
+        console.log('Loading media page content');
         loadVideos();
     } else if (path.includes('about.html')) {
+        console.log('Loading about page content');
         loadAbout();
     } else if (path.includes('index.html') || path === '/' || path.endsWith('/')) {
+        console.log('Loading home page content');
         loadHome();
+    } else {
+        console.log('No content loader for this page');
     }
 });
