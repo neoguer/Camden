@@ -1,0 +1,169 @@
+// Content Loader for Camden Archambeau Website
+// Loads content from JSON data files managed by Netlify CMS
+
+// Load videos for media page
+async function loadVideos() {
+    try {
+        const response1 = await fetch('/_data/videos/performance-1.md');
+        const response2 = await fetch('/_data/videos/performance-2.md');
+
+        const videos = [];
+
+        // Parse markdown frontmatter
+        const parseMarkdown = (text) => {
+            const match = text.match(/---\n([\s\S]*?)\n---/);
+            if (!match) return null;
+
+            const frontmatter = {};
+            const lines = match[1].split('\n');
+            lines.forEach(line => {
+                const [key, ...valueParts] = line.split(':');
+                if (key && valueParts.length) {
+                    const value = valueParts.join(':').trim().replace(/^["']|["']$/g, '');
+                    frontmatter[key.trim()] = value;
+                }
+            });
+            return frontmatter;
+        };
+
+        if (response1.ok) {
+            const text1 = await response1.text();
+            const data1 = parseMarkdown(text1);
+            if (data1) videos.push(data1);
+        }
+
+        if (response2.ok) {
+            const text2 = await response2.text();
+            const data2 = parseMarkdown(text2);
+            if (data2) videos.push(data2);
+        }
+
+        // Sort by order
+        videos.sort((a, b) => (parseInt(a.order) || 0) - (parseInt(b.order) || 0));
+
+        // Update carousel
+        const carouselTrack = document.querySelector('.carousel-track');
+        const carouselDots = document.querySelector('.carousel-dots');
+
+        if (carouselTrack && videos.length > 0) {
+            carouselTrack.innerHTML = videos.map((video, index) => `
+                <div class="carousel-slide${index === 0 ? ' active' : ''}">
+                    <div class="video-wrapper">
+                        <iframe src="https://www.youtube.com/embed/${video.videoId}"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                    <h3>${video.title}</h3>
+                </div>
+            `).join('');
+        }
+
+        if (carouselDots && videos.length > 0) {
+            carouselDots.innerHTML = videos.map((video, index) =>
+                `<button class="carousel-dot${index === 0 ? ' active' : ''}" data-slide="${index}" aria-label="Go to slide ${index + 1}"></button>`
+            ).join('');
+
+            // Re-attach event listeners for dots
+            document.querySelectorAll('.carousel-dot').forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const slideIndex = parseInt(dot.dataset.slide);
+                    const slides = document.querySelectorAll('.carousel-slide');
+                    const dots = document.querySelectorAll('.carousel-dot');
+
+                    slides.forEach((slide, i) => {
+                        slide.classList.toggle('active', i === slideIndex);
+                    });
+
+                    dots.forEach((d, i) => {
+                        d.classList.toggle('active', i === slideIndex);
+                    });
+                });
+            });
+        }
+
+    } catch (error) {
+        console.error('Error loading videos:', error);
+    }
+}
+
+// Load about page content
+async function loadAbout() {
+    try {
+        const response = await fetch('/_data/about.json');
+        if (!response.ok) return;
+
+        const data = await response.json();
+
+        // Update lead paragraph
+        const leadElement = document.querySelector('.about-text .lead');
+        if (leadElement && data.lead) {
+            leadElement.textContent = data.lead;
+        }
+
+        // Update bio - convert markdown to paragraphs
+        const bioContainer = document.querySelector('.about-text');
+        if (bioContainer && data.bio) {
+            const paragraphs = data.bio.split('\n\n').filter(p => p.trim());
+            const bioHTML = paragraphs.map(p => `<p>${p.trim()}</p>`).join('');
+
+            // Keep the lead paragraph, replace the rest
+            if (leadElement) {
+                const existingParagraphs = bioContainer.querySelectorAll('p:not(.lead)');
+                existingParagraphs.forEach(p => p.remove());
+                leadElement.insertAdjacentHTML('afterend', bioHTML);
+            }
+        }
+
+        // Update headshot
+        const imgElement = document.querySelector('.about-image img');
+        if (imgElement && data.headshot) {
+            imgElement.src = data.headshot;
+        }
+
+    } catch (error) {
+        console.error('Error loading about content:', error);
+    }
+}
+
+// Load home page content
+async function loadHome() {
+    try {
+        const response = await fetch('/_data/home.json');
+        if (!response.ok) return;
+
+        const data = await response.json();
+
+        if (data.title) {
+            const titleElement = document.querySelector('.hero-title');
+            if (titleElement) titleElement.textContent = data.title;
+        }
+
+        if (data.subtitle) {
+            const subtitleElement = document.querySelector('.hero-subtitle');
+            if (subtitleElement) subtitleElement.textContent = data.subtitle;
+        }
+
+        if (data.location) {
+            const locationElement = document.querySelector('.hero-location');
+            if (locationElement) locationElement.textContent = data.location;
+        }
+
+    } catch (error) {
+        console.error('Error loading home content:', error);
+    }
+}
+
+// Initialize content loading based on current page
+document.addEventListener('DOMContentLoaded', () => {
+    const path = window.location.pathname;
+
+    if (path.includes('media.html')) {
+        loadVideos();
+    } else if (path.includes('about.html')) {
+        loadAbout();
+    } else if (path.includes('index.html') || path === '/' || path.endsWith('/')) {
+        loadHome();
+    }
+});

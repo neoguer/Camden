@@ -1,0 +1,48 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "videos"
+    label: "Carousel Videos"
+    folder: "_data/videos"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "YouTube Video ID", name: "videoId", widget: "string", hint: "Just the video ID, e.g., 'MV-UF4WIlQE' from youtube.com/watch?v=MV-UF4WIlQE"}
+      - {label: "Order", name: "order", widget: "number", default: 1, hint: "Lower numbers appear first"}
+
+  - name: "pages"
+    label: "Pages"
+    files:
+      - label: "About Page"
+        name: "about"
+        file: "_data/about.json"
+        fields:
+          - {label: "Lead Paragraph", name: "lead", widget: "text"}
+          - {label: "Biography", name: "bio", widget: "markdown"}
+          - {label: "Headshot", name: "headshot", widget: "image", required: false}
+
+      - label: "Home Page"
+        name: "home"
+        file: "_data/home.json"
+        fields:
+          - {label: "Hero Title", name: "title", widget: "string", default: "Camden Archambeau"}
+          - {label: "Hero Subtitle", name: "subtitle", widget: "string", default: "Cellist • Conductor • Educator"}
+          - {label: "Location", name: "location", widget: "string", default: "New York City"}
+
+  - name: "performances"
+    label: "Performances"
+    folder: "_data/performances"
+    create: true
+    slug: "{{year}}-{{month}}-{{slug}}"
+    fields:
+      - {label: "Date", name: "date", widget: "datetime"}
+      - {label: "Venue/Event", name: "venue", widget: "string"}
+      - {label: "Ensemble", name: "ensemble", widget: "string", required: false}
+      - {label: "Description", name: "description", widget: "text", required: false}
+      - {label: "Location", name: "location", widget: "string", required: false}
