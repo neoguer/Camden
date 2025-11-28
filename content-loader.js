@@ -4,15 +4,20 @@
 // Load videos for media page
 async function loadVideos() {
     try {
+        console.log('Loading videos from JSON...');
+
         // Load videos from JSON file
         const response = await fetch('/_data/videos.json');
         if (!response.ok) {
-            console.error('Failed to load videos');
+            console.error('Failed to load videos, status:', response.status);
             return;
         }
 
         const data = await response.json();
+        console.log('Videos data loaded:', data);
+
         const videos = data.videos || [];
+        console.log('Number of videos:', videos.length);
 
         // Sort by order
         videos.sort((a, b) => (parseInt(a.order) || 0) - (parseInt(b.order) || 0));
@@ -22,6 +27,7 @@ async function loadVideos() {
         const carouselDots = document.querySelector('.carousel-dots');
 
         if (carouselTrack && videos.length > 0) {
+            console.log('Updating carousel with', videos.length, 'videos');
             carouselTrack.innerHTML = videos.map((video, index) => `
                 <div class="carousel-slide${index === 0 ? ' active' : ''}">
                     <div class="video-wrapper">
@@ -34,6 +40,9 @@ async function loadVideos() {
                     <h3>${video.title}</h3>
                 </div>
             `).join('');
+            console.log('Carousel updated successfully');
+        } else {
+            console.error('Carousel track not found or no videos');
         }
 
         if (carouselDots && videos.length > 0) {
