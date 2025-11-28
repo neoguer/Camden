@@ -4,39 +4,15 @@
 // Load videos for media page
 async function loadVideos() {
     try {
-        const response1 = await fetch('/_data/videos/performance-1.md');
-        const response2 = await fetch('/_data/videos/performance-2.md');
-
-        const videos = [];
-
-        // Parse markdown frontmatter
-        const parseMarkdown = (text) => {
-            const match = text.match(/---\n([\s\S]*?)\n---/);
-            if (!match) return null;
-
-            const frontmatter = {};
-            const lines = match[1].split('\n');
-            lines.forEach(line => {
-                const [key, ...valueParts] = line.split(':');
-                if (key && valueParts.length) {
-                    const value = valueParts.join(':').trim().replace(/^["']|["']$/g, '');
-                    frontmatter[key.trim()] = value;
-                }
-            });
-            return frontmatter;
-        };
-
-        if (response1.ok) {
-            const text1 = await response1.text();
-            const data1 = parseMarkdown(text1);
-            if (data1) videos.push(data1);
+        // Load videos from JSON file
+        const response = await fetch('/_data/videos.json');
+        if (!response.ok) {
+            console.error('Failed to load videos');
+            return;
         }
 
-        if (response2.ok) {
-            const text2 = await response2.text();
-            const data2 = parseMarkdown(text2);
-            if (data2) videos.push(data2);
-        }
+        const data = await response.json();
+        const videos = data.videos || [];
 
         // Sort by order
         videos.sort((a, b) => (parseInt(a.order) || 0) - (parseInt(b.order) || 0));

@@ -6,19 +6,21 @@ media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
 collections:
-  - name: "videos"
-    label: "Carousel Videos"
-    folder: "_data/videos"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "YouTube Video ID", name: "videoId", widget: "string", hint: "Just the video ID, e.g., 'MV-UF4WIlQE' from youtube.com/watch?v=MV-UF4WIlQE"}
-      - {label: "Order", name: "order", widget: "number", default: 1, hint: "Lower numbers appear first"}
-
   - name: "pages"
     label: "Pages"
     files:
+      - label: "Carousel Videos"
+        name: "videos"
+        file: "_data/videos.json"
+        fields:
+          - label: "Videos"
+            name: "videos"
+            widget: "list"
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "YouTube Video ID", name: "videoId", widget: "string", hint: "Just the video ID, e.g., 'MV-UF4WIlQE' from youtube.com/watch?v=MV-UF4WIlQE"}
+              - {label: "Order", name: "order", widget: "number", default: 1, hint: "Lower numbers appear first"}
+
       - label: "About Page"
         name: "about"
         file: "_data/about.json"
