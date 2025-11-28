@@ -211,13 +211,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const path = window.location.pathname;
     console.log('Content loader initialized, path:', path);
 
-    if (path.includes('media.html')) {
+    if (path.includes('media')) {
         console.log('Loading media page content');
         loadVideos();
-    } else if (path.includes('about.html')) {
+    } else if (path.includes('about')) {
         console.log('Loading about page content');
         loadAbout();
-    } else if (path.includes('index.html') || path === '/' || path.endsWith('/')) {
+    } else if (path.includes('index') || path === '/' || path.endsWith('/')) {
         console.log('Loading home page content');
         loadHome();
     } else {
