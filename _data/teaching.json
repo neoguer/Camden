@@ -1,0 +1,25 @@
+{
+  "lead": "Camden is currently accepting new cello students of all levels.",
+  "intro": "As an assistant conductor and chamber music coach at Boston Youth Symphony Orchestras, Camden brings a wealth of experience in musical education. His teaching philosophy emphasizes technical excellence, musical expression, and creative programming.",
+  "features": [
+    {
+      "title": "Private Lessons",
+      "description": "One-on-one instruction tailored to each student's goals and abilities, from beginners to advanced players"
+    },
+    {
+      "title": "Chamber Music Coaching",
+      "description": "Ensemble coaching drawing from experience with world-class chamber musicians"
+    },
+    {
+      "title": "Performance Preparation",
+      "description": "Audition and recital preparation with insights from performances at Carnegie Hall and beyond"
+    },
+    {
+      "title": "Theory & Musicianship",
+      "description": "Comprehensive musical education incorporating history, theory, and interpretation"
+    }
+  ],
+  "credentialsTitle": "Educational Background",
+  "credentials": "Camden studied with distinguished pedagogues including **Joel Krosnick, Paul Katz, Sieun Lin, and Adam Grabois**, and currently studies with **David Finckel and Nina Lee** at The Juilliard School. He holds a B.A. in History from Harvard University.",
+  "ctaText": "Inquire About Lessons"
+}

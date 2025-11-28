@@ -27,7 +27,7 @@ collections:
         fields:
           - {label: "Lead Paragraph", name: "lead", widget: "text"}
           - {label: "Biography", name: "bio", widget: "markdown"}
-          - {label: "Headshot", name: "headshot", widget: "image", required: false}
+          - {label: "Headshot", name: "headshot", widget: "string", required: false, hint: "Image filename (e.g., BIMF Headshot 2024.jpg)"}
 
       - label: "Home Page"
         name: "home"
@@ -37,14 +37,57 @@ collections:
           - {label: "Hero Subtitle", name: "subtitle", widget: "string", default: "Cellist • Conductor • Educator"}
           - {label: "Location", name: "location", widget: "string", default: "New York City"}
 
-  - name: "performances"
-    label: "Performances"
-    folder: "_data/performances"
-    create: true
-    slug: "{{year}}-{{month}}-{{slug}}"
-    fields:
-      - {label: "Date", name: "date", widget: "datetime"}
-      - {label: "Venue/Event", name: "venue", widget: "string"}
-      - {label: "Ensemble", name: "ensemble", widget: "string", required: false}
-      - {label: "Description", name: "description", widget: "text", required: false}
-      - {label: "Location", name: "location", widget: "string", required: false}
+      - label: "Teaching Page"
+        name: "teaching"
+        file: "_data/teaching.json"
+        fields:
+          - {label: "Lead Paragraph", name: "lead", widget: "text"}
+          - {label: "Introduction", name: "intro", widget: "text"}
+          - label: "Features"
+            name: "features"
+            widget: "list"
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Description", name: "description", widget: "text"}
+          - {label: "Credentials Title", name: "credentialsTitle", widget: "string", default: "Educational Background"}
+          - {label: "Credentials", name: "credentials", widget: "markdown"}
+          - {label: "Call to Action Text", name: "ctaText", widget: "string", default: "Inquire About Lessons"}
+
+      - label: "Consulting Page"
+        name: "consulting"
+        file: "_data/consulting.json"
+        fields:
+          - {label: "Lead Paragraph", name: "lead", widget: "text"}
+          - {label: "Introduction", name: "intro", widget: "text"}
+          - label: "Features"
+            name: "features"
+            widget: "list"
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Description", name: "description", widget: "text"}
+          - {label: "Expertise Title", name: "expertiseTitle", widget: "string", default: "Expertise & Background"}
+          - {label: "Expertise", name: "expertise", widget: "markdown"}
+          - {label: "Call to Action Text", name: "ctaText", widget: "string", default: "Schedule a Consultation"}
+
+      - label: "Gallery Page"
+        name: "gallery"
+        file: "_data/gallery.json"
+        fields:
+          - label: "Gallery Images"
+            name: "images"
+            widget: "list"
+            fields:
+              - {label: "Image Filename", name: "src", widget: "string", hint: "e.g., BIMF Headshot 2024.jpg"}
+              - {label: "Alt Text", name: "alt", widget: "string"}
+              - {label: "Caption", name: "caption", widget: "string"}
+
+      - label: "Contact Page"
+        name: "contact"
+        file: "_data/contact.json"
+        fields:
+          - {label: "Introduction", name: "intro", widget: "text"}
+          - {label: "Locations", name: "locations", widget: "text", hint: "Separate multiple locations with line breaks"}
+          - {label: "Instagram URL", name: "instagramUrl", widget: "string"}
+          - {label: "YouTube URL", name: "youtubeUrl", widget: "string"}
+          - {label: "Affiliations", name: "affiliations", widget: "text", hint: "Separate multiple affiliations with line breaks"}
+          - {label: "Formspree Form ID", name: "formspreeId", widget: "string", hint: "e.g., xdkbarbj"}

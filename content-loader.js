@@ -206,6 +206,170 @@ async function loadHome() {
     }
 }
 
+// Load teaching page content
+async function loadTeaching() {
+    try {
+        const response = await fetch('/_data/teaching.json');
+        if (!response.ok) return;
+
+        const data = await response.json();
+
+        // Update lead paragraph
+        const leadElement = document.querySelector('.teaching-intro .lead');
+        if (leadElement && data.lead) leadElement.textContent = data.lead;
+
+        // Update intro paragraph
+        const introElement = document.querySelector('.teaching-intro p:not(.lead)');
+        if (introElement && data.intro) introElement.textContent = data.intro;
+
+        // Update feature cards
+        if (data.features && data.features.length > 0) {
+            const featureCards = document.querySelectorAll('.feature-card');
+            data.features.forEach((feature, index) => {
+                if (featureCards[index]) {
+                    const titleEl = featureCards[index].querySelector('h3');
+                    const descEl = featureCards[index].querySelector('p');
+                    if (titleEl) titleEl.textContent = feature.title;
+                    if (descEl) descEl.textContent = feature.description;
+                }
+            });
+        }
+
+        // Update credentials section
+        if (data.credentialsTitle) {
+            const credTitleEl = document.querySelector('.teaching-credentials h3');
+            if (credTitleEl) credTitleEl.textContent = data.credentialsTitle;
+        }
+        if (data.credentials) {
+            const credEl = document.querySelector('.teaching-credentials p');
+            if (credEl) credEl.innerHTML = data.credentials.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        }
+
+        // Update CTA button
+        if (data.ctaText) {
+            const ctaBtn = document.querySelector('.teaching-cta .btn-secondary');
+            if (ctaBtn) ctaBtn.textContent = data.ctaText;
+        }
+
+    } catch (error) {
+        console.error('Error loading teaching content:', error);
+    }
+}
+
+// Load consulting page content
+async function loadConsulting() {
+    try {
+        const response = await fetch('/_data/consulting.json');
+        if (!response.ok) return;
+
+        const data = await response.json();
+
+        // Update lead paragraph
+        const leadElement = document.querySelector('.teaching-intro .lead');
+        if (leadElement && data.lead) leadElement.textContent = data.lead;
+
+        // Update intro paragraph
+        const introElement = document.querySelector('.teaching-intro p:not(.lead)');
+        if (introElement && data.intro) introElement.textContent = data.intro;
+
+        // Update feature cards
+        if (data.features && data.features.length > 0) {
+            const featureCards = document.querySelectorAll('.feature-card');
+            data.features.forEach((feature, index) => {
+                if (featureCards[index]) {
+                    const titleEl = featureCards[index].querySelector('h3');
+                    const descEl = featureCards[index].querySelector('p');
+                    if (titleEl) titleEl.textContent = feature.title;
+                    if (descEl) descEl.textContent = feature.description;
+                }
+            });
+        }
+
+        // Update expertise section
+        if (data.expertiseTitle) {
+            const expTitleEl = document.querySelector('.teaching-credentials h3');
+            if (expTitleEl) expTitleEl.textContent = data.expertiseTitle;
+        }
+        if (data.expertise) {
+            const expEl = document.querySelector('.teaching-credentials p');
+            if (expEl) expEl.innerHTML = data.expertise.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        }
+
+        // Update CTA button
+        if (data.ctaText) {
+            const ctaBtn = document.querySelector('.teaching-cta .btn-secondary');
+            if (ctaBtn) ctaBtn.textContent = data.ctaText;
+        }
+
+    } catch (error) {
+        console.error('Error loading consulting content:', error);
+    }
+}
+
+// Load gallery page content
+async function loadGallery() {
+    try {
+        const response = await fetch('/_data/gallery.json');
+        if (!response.ok) return;
+
+        const data = await response.json();
+
+        if (data.images && data.images.length > 0) {
+            const galleryGrid = document.querySelector('.gallery-grid');
+            if (galleryGrid) {
+                galleryGrid.innerHTML = data.images.map(img => `
+                    <div class="gallery-item">
+                        <img src="${img.src}" alt="${img.alt}">
+                        <div class="gallery-overlay">
+                            <p>${img.caption}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+    } catch (error) {
+        console.error('Error loading gallery content:', error);
+    }
+}
+
+// Load contact page content
+async function loadContact() {
+    try {
+        const response = await fetch('/_data/contact.json');
+        if (!response.ok) return;
+
+        const data = await response.json();
+
+        // Update intro
+        if (data.intro) {
+            const introEl = document.querySelector('.contact-intro');
+            if (introEl) introEl.textContent = data.intro;
+        }
+
+        // Update locations
+        if (data.locations) {
+            const locationsEl = document.querySelector('.contact-item p');
+            if (locationsEl) locationsEl.innerHTML = data.locations.replace(/\n/g, '<br>');
+        }
+
+        // Update affiliations
+        if (data.affiliations) {
+            const affiliationsEl = document.querySelectorAll('.contact-item p')[1];
+            if (affiliationsEl) affiliationsEl.innerHTML = data.affiliations.replace(/\n/g, '<br>');
+        }
+
+        // Update form action
+        if (data.formspreeId) {
+            const formEl = document.getElementById('contactForm');
+            if (formEl) formEl.action = `https://formspree.io/f/${data.formspreeId}`;
+        }
+
+    } catch (error) {
+        console.error('Error loading contact content:', error);
+    }
+}
+
 // Initialize content loading based on current page
 document.addEventListener('DOMContentLoaded', () => {
     const path = window.location.pathname;
@@ -217,6 +381,18 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (path.includes('about')) {
         console.log('Loading about page content');
         loadAbout();
+    } else if (path.includes('teaching')) {
+        console.log('Loading teaching page content');
+        loadTeaching();
+    } else if (path.includes('consulting')) {
+        console.log('Loading consulting page content');
+        loadConsulting();
+    } else if (path.includes('gallery')) {
+        console.log('Loading gallery page content');
+        loadGallery();
+    } else if (path.includes('contact')) {
+        console.log('Loading contact page content');
+        loadContact();
     } else if (path.includes('index') || path === '/' || path.endsWith('/')) {
         console.log('Loading home page content');
         loadHome();

@@ -1,0 +1,25 @@
+{
+  "lead": "Camden offers comprehensive college consulting services for students pursuing top universities and conservatories.",
+  "intro": "Having successfully navigated the admissions process at multiple Ivy League institutions and elite dual degree programs, Camden provides personalized guidance to help students achieve their academic and musical aspirations.",
+  "features": [
+    {
+      "title": "University Admissions",
+      "description": "Strategic guidance for applications to top universities, including Ivy League schools, with expertise in essays, interviews, and positioning"
+    },
+    {
+      "title": "Dual Degree Programs",
+      "description": "Specialized consulting for competitive dual degree music programs that combine conservatory training with liberal arts education"
+    },
+    {
+      "title": "Conservatory Applications",
+      "description": "Comprehensive support for music school applications, including repertoire selection, pre-screening recordings, and audition preparation"
+    },
+    {
+      "title": "Application Strategy",
+      "description": "Personalized roadmap for building a compelling application, from school selection to timeline management"
+    }
+  ],
+  "expertiseTitle": "Expertise & Background",
+  "expertise": "Camden was admitted to numerous Ivy League universities and holds a B.A. from **Harvard University**. He has successfully gained admission to most of the nation's top dual degree music programs, combining elite academic institutions with premier conservatories. He currently studies at **The Juilliard School**, giving him firsthand experience with both traditional university and conservatory pathways.",
+  "ctaText": "Schedule a Consultation"
+}
